@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../../dist/uikit/components",
+  "lib": {
+    "entryFile": "src/public_api.ts",
+    "externals": {
+      "@angular/cdk": "@angular/cdk",
+      "moment": "moment",
+      "rxjs": "rxjs",
+      "tslib": "tslib"
+    }
+  }
+}

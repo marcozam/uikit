@@ -1,0 +1,137 @@
+<!--Placeholder should be configarable-->
+<div class="uk-form-control" cdk-overlay-origin #origin="cdkOverlayOrigin" #trigger>
+    <div class="uk-form-control__value">
+      <input ukDate placeholder="MM/DD/YY"
+      [id]="id" [disabled]="disabled" ([focused])="focused" 
+      [value]="initialDateText" (valueChange)="onDateTextChange($event)"/>
+    </div>
+    <div class="uk-form-control__addon">
+      <button class="uk-btn none uk-date-picker__icon"
+        ukIcon="datepicker" (click)="openCalendar()">
+      </button>
+    </div>
+  </div>
+  
+  <ng-template 
+    cdk-connected-overlay
+    cdkConnectedOverlayLockPosition
+    [origin]="origin"
+    [open]="isCalendarOpen"
+    hasBackdrop
+    backdropClass="cdk-overlay-transparent-backdrop"
+    (backdropClick)="closeCalendar()"
+    (detach)="closeCalendar()">
+    
+    <div class="uk-calendar {{calendarType}}">
+      <!-- Day Seleccion -->
+      <div *ngIf="!monthSelection" class="frow">
+        <div *ngFor="let month of months; let i = index" class="fcol uk-calendar-month-group">
+          <div class="frow uk-calendar-nav-bar">
+            <div class="fcol">
+              <!-- Previous Month -->
+              <button ukIcon="arrow-chevron" ukIconRotation="180"
+                type="button" class="uk-btn uk-calendar-nav prev none"
+                *ngIf="allowPrevNav('month') && i === 0"
+                (click)="prevMonth()">
+              </button>
+            </div>
+            <!-- Title -->
+            <div class="fcol text-center">
+              <button type="button" class="uk-btn none" (click)="openMonthSelection()" *ngIf="monthClickable">
+                {{ month.name }} {{ month.year }}
+              </button>
+              <span *ngIf="!monthClickable">
+                {{ month.name }} {{ month.year }}
+              </span>
+            </div>
+            <div class="fcol text-right">
+              <!-- Next Month -->
+              <button ukIcon="arrow-chevron"
+                type="button" class="uk-btn uk-calendar-nav next none" 
+                *ngIf="allowNextNav('month') && i === months.length - 1"
+                (click)="nextMonth()" >
+              </button>
+            </div>
+          </div>
+          <!--  -->
+          <table>
+            <thead>
+              <tr class="uk-week-days">
+                <td class="uk-week-day text-center uk-week-name" *ngFor="let weekDay of dayNames">
+                  {{weekDay | slice:0:charsLimit}}
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="uk-week-days" *ngFor="let week of month.weeks">
+                <td class="uk-week-day text-center" *ngFor="let d of week" [ngClass]="{'active': isDaySelected(d)}" >
+                  <button type="button" class="uk-calendar-selectable-item uk-btn none" *ngIf="d.isCurrentMonth" 
+                    [disabled]="d.disabled"
+                    [ngClass]="{'today': d.today, 'active': isDaySelected(d)}" 
+                    (click)="onDaySelected(d)"
+                    (mouseover)="onDayHover(d)">
+                      {{d.label}}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+      <!-- Months -->
+      <table *ngIf="monthSelection" class="uk-calendar-month">
+        <thead>
+          <tr>
+            <td colspan="7" class="text-center">
+              <button ukIcon="arrow-chevron" ukIconRotation="270" 
+                *ngIf="allowPrevNav('year')" type="button" class="uk-btn none"
+                (click)="prevYear()">
+              </button>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor [ngForOf]="years" let-year>
+            <tr class="uk-week-days">
+              <td rowspan="2" class="uk-year-label">
+                {{year.value}}
+              </td>
+              <ng-template ngFor [ngForOf]="year.months" let-month let-i="index">
+                <td *ngIf="i < 6" class="uk-week-day text-center">
+                  <button type="button" class="uk-calendar-selectable-item uk-btn none" 
+                    [ngClass]="{'active': isMonthSelected(month)}"
+                    [disabled]="month.isDisabled"
+                    (click)="onMonthSelected(month)">
+                    {{month.name | slice:0:charsLimit}}
+                  </button>
+                </td>
+              </ng-template>
+            </tr>
+            <tr class="uk-week-days">
+              <ng-template ngFor [ngForOf]="year.months" let-month let-i="index">
+                <td *ngIf="i >= 6" class="uk-week-day text-center">
+                  <button type="button" class="uk-calendar-selectable-item uk-btn none" 
+                    [ngClass]="{'active': isMonthSelected(month)}"
+                    [disabled]="month.isDisabled"
+                    (click)="onMonthSelected(month)">
+                    {{month.name | slice:0:charsLimit}}
+                  </button>
+                </td>
+              </ng-template>
+            </tr>
+          </ng-template>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7" class="text-center">
+              <button ukIcon="arrow-chevron" ukIconRotation="90" 
+                *ngIf="allowNextNav('year')" type="button" class="uk-btn none" 
+                (click)="nextYear()">
+              </button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </ng-template>

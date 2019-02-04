@@ -1,0 +1,34 @@
+<ul class="uk-nav uk-tab-header text-{{align}}" role="tablist">
+  <ng-container *ngFor="let tab of _items; let i = index" >
+    <li class="uk-nav-item uk-tab-nav" 
+      role="tab"
+      [attr.id]="tab.id + '-label'"
+      [attr.aria-selected]="tab.active"
+      [attr.aria-controls]="tab.id"
+      [attr.tabindex]="tab.active ? 0 : -1"
+      [ngClass]="{'active' : tab.active, 'selected' : selectedIndex === tab.index}" 
+      [ukAutofocus]="selectedIndex === tab.index"
+      (click)="select(tab, true, behaviour === 'accordion')"
+      (keydown)="keyNavigation($event, i, tab)">
+      {{tab.textLabel}}
+    </li>
+    <uk-tab-body  
+      *ngIf="behaviour === 'accordion'"
+      [ngClass]="{'active' : tab.active, 'selected' : tab.selected}" 
+      [attr.id]="tab.id"
+      [attr.aria-labelledby]="tab.id + '-label'"
+      [attr.aria-hidden]="!tab.active"
+      [tab]="tab">
+    </uk-tab-body>
+  </ng-container>
+</ul>
+<div class="uk-tabs-body" *ngIf="behaviour === 'tabs'">
+  <uk-tab-body 
+    *ngFor="let tab of _items; let i = index"
+    [ngClass]="{'active' : tab.active, 'selected' : selectedIndex === tab.index}" 
+    [attr.id]="tab.id"
+    [attr.aria-labelledby]="tab.id + '-label'"
+    [attr.aria-hidden]="!tab.active"
+    [tab]="tab">
+  </uk-tab-body>
+</div>

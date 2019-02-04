@@ -1,0 +1,66 @@
+
+<!-- LABELS -->
+<div class="uk-form-field__label">
+  <label class="uk-label" [class.sr-only]="hideLabel"
+    *ngIf="label"
+    [for]="control.id">{{label}}
+    <span aria-hidden="true"
+      *ngIf="!control.required">({{optionalText}})</span>
+  </label>
+  <ng-content select=".uk-label:not([align='right'])"></ng-content>
+  <ng-content select=".uk-label[align='right']"></ng-content>
+  <button class="uk-label uk-password"
+    type="button"
+    aria-hidden="true"
+    tabindex="-1"
+    align="right"
+    ukIcon="eye-outline"
+    ukIconColor="text"
+    *ngIf="isPassword"
+    (click)="toggleShow()">
+    {{ isValueShown ? 'Hide' : 'Show' }}
+  </button>
+</div>
+
+<!-- MAIN INPUT -->
+<div class="uk-form-field__main" [class.invalid]="control.invalid && control.touched"
+  (click)="control.onClick && control.onClick($event)">
+
+  <!-- PREFIX -->
+  <div class="uk-form-field__main-prefix"
+    *ngIf="prefixChildren.length">
+    <ng-content select="[ukPrefix]"></ng-content>
+  </div>
+
+  <!-- INPUT -->
+  <div class="uk-form-field__main-input"
+    #inputRef>
+    <ng-content></ng-content>
+  </div>
+
+  <!-- SUFFIX -->
+  <div class="uk-form-field__main-suffix"
+    *ngIf="suffixChildren.length">
+    <ng-content select="[ukSuffix]"></ng-content>
+  </div>
+</div>
+
+<!-- HINT & ERROR -->
+<div class="uk-form-field__messages">
+  <!-- ERROR -->
+  <div class="uk-form-field__messages-error"
+    *ngIf="shouldDisplayError">
+    <ng-content select="uk-error"></ng-content>
+    <!-- DEFAULT ERRORS -->
+    <uk-error *ngFor="let err of controlErrors">
+      {{ err.message( fieldName ? fieldName : label, control.ngControl.getError(err.name)) }}
+    </uk-error>
+  </div>
+  <!-- HINT -->
+  <div class="uk-form-field__messages-hint"
+    *ngIf="!shouldDisplayError">
+    <uk-hint *ngIf="hint">{{hint}}</uk-hint>
+    <ng-content select="uk-hint:not([align='right'])"></ng-content>
+    <ng-content select="uk-hint[align='right']"></ng-content>
+  </div>
+</div>

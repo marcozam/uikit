@@ -1,0 +1,1 @@
+export enum UKCalendarType { SINGLE = 'single', LONG = 'long', SHORT = 'short' };

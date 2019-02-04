@@ -1,0 +1,33 @@
+<ol class="uk-progress-track" role="tablist">
+  <li class="uk-progress-step"
+    role="tab" tabindex="0"
+    *ngFor="let step of _items; let i = index"
+    [attr.id]="step.id + '-label'"
+    [attr.aria-selected]="step.active"
+    [attr.aria-controls]="step.id"
+    [attr.tabindex]="step.active ? 0 : -1"
+    [ukAutofocus]="selectedIndex === step.index"
+    [ngClass]="{'active': step.active, 'done': step.completed, 'wip': step.inProgress }">
+    <div class="uk-progress-line"></div>
+    <div class="uk-step-icon-wrap" ukIcon="check-mark"></div>
+    <span class="uk-progress-text" [ngClass]="{'hide-cs hide-xs': _items.length > 3}">
+      {{step.textLabel}}
+    </span>
+  </li>
+</ol>
+
+<div aria-hidden="true" class="uk-progress-title text-center hide-sm hide-md hide-lg" *ngIf="_items.length > 3">
+  {{activeStep.textLabel}}
+</div>
+
+<div class="uk-progress-step-body">
+  <uk-step-body 
+    *ngFor="let step of _items; let i = index"
+    [attr.id]="step.id"
+    [attr.aria-labelledby]="step.id + '-label'"
+    [attr.aria-hidden]="!step.active"
+    [attr.aria-expanded]="step.active"
+    [step]="step">
+    <ng-container [ngTemplateOutlet]="step._content"></ng-container>
+  </uk-step-body>
+</div>

@@ -1,0 +1,36 @@
+import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { UKMonth, UKCalendarDate } from '../../typings';
+
+export const ukDayNames = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+
+@Component({
+    selector: 'uk-day-selection',
+    templateUrl: './day-selection.component.html',
+    encapsulation: ViewEncapsulation.None
+})
+export class UKDaySelectionComponent {
+    dayNames = ukDayNames;
+    charsLimit = 3;
+    monthClickable = false;
+
+    @Input() month: UKMonth;
+
+    onDaySelected(day: UKCalendarDate) { }
+
+    onDayHover(day: UKCalendarDate) { }
+
+    prevMonth(): void { }
+    
+    nextMonth(): void { }
+
+    // Arrows Navigation
+  allowPrevNav(granularity: any): boolean {
+    return false;
+   }
+
+  allowNextNav(granularity: any): boolean {
+    return false;
+   }
+
+   openMonthSelection() { }
+}

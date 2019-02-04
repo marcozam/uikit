@@ -1,0 +1,30 @@
+<div cdk-overlay-origin class="uk-dropdown__trigger" 
+  #origin="cdkOverlayOrigin" #trigger
+  (click)="toggle()">  
+  <div class="uk-dropdown__select" [ngSwitch]="!viewValue">
+    <span class="uk-dropdown__select-placeholder" *ngSwitchCase="true">
+      {{placeholder || '\u00A0'}}
+    </span>
+    <span class="uk-dropdown__select-value" *ngSwitchCase="false">
+      {{viewValue}}
+    </span>
+  </div>
+  <div class="uk-dropdown__arrow-wrapper">
+    <div class="uk-dropdown__arrow"></div>
+  </div>
+</div>
+<ng-template 
+  cdkConnectedOverlay
+  cdkConnectedOverlayLockPosition
+  cdkConnectedOverlayHasBackdrop
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="isMenuOpen"
+  [cdkConnectedOverlayMinWidth]="_triggerRect?.width"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (detach)="close()">
+  <div #panel class="uk-dropdown__panel"
+    [style.font-size.px]="_triggerFontSize">
+    <ng-content></ng-content>
+  </div>
+</ng-template>

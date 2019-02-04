@@ -1,0 +1,7 @@
+<div class="uk-radio-group__item" *ngFor="let opt of _items; let i = index" >
+    <input [id]="opt.id" type="radio" [value]="opt.value" [name]="id" (change)="onRadioChanged(opt.value)"
+    [attr.checked]="value === opt.value ? '' : null"/>
+    <label [for]="opt.id">
+        {{ opt.viewValue }}
+    </label>
+</div>

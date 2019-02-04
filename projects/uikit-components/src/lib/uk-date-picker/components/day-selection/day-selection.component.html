@@ -1,0 +1,51 @@
+<div class="frow uk-calendar-nav-bar">
+  <div class="fcol">
+    <!-- Previous Month -->
+    <button ukIcon="arrow-chevron" ukIconRotation="180"
+      type="button" class="uk-btn uk-calendar-nav prev none"
+      *ngIf="allowPrevNav('month') && i === 0"
+      (click)="prevMonth()">
+    </button>
+  </div>
+  <!-- Title -->
+  <div class="fcol text-center">
+    <button type="button" class="uk-btn none" (click)="openMonthSelection()" *ngIf="monthClickable">
+      {{ month.name }} {{ month.year }}
+    </button>
+    <span *ngIf="!monthClickable">
+      {{ month.name }} {{ month.year }}
+    </span>
+  </div>
+  <div class="fcol text-right">
+    <!-- Next Month -->
+    <!-- && i === months.length - 1-->
+    <button ukIcon="arrow-chevron"
+      type="button" class="uk-btn uk-calendar-nav next none" 
+      *ngIf="allowNextNav('month')"
+      (click)="nextMonth()" >
+    </button>
+  </div>
+</div>
+<!-- Weeks Display -->
+<table>
+  <thead>
+    <tr class="uk-week-days">
+      <td class="uk-week-day text-center uk-week-name" *ngFor="let weekDay of dayNames">
+        {{weekDay | slice:0:charsLimit}}
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="uk-week-days" *ngFor="let week of month.weeks">
+      <td class="uk-week-day text-center" *ngFor="let d of week" [ngClass]="{'active': isDaySelected(d)}" >
+        <button type="button" class="uk-calendar-selectable-item uk-btn none" *ngIf="d.isCurrentMonth" 
+          [disabled]="d.disabled"
+          [ngClass]="{'today': d.today, 'active': isDaySelected(d)}" 
+          (click)="onDaySelected(d)"
+          (mouseover)="onDayHover(d)">
+            {{d.label}}
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

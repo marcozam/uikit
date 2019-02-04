@@ -1,0 +1,21 @@
+<nav class="uk-sidenav uk-shadow-2 open" [ngClass]="{'left': side === 'left', 'right' : side === 'right', 'open': toggle }">
+  <button aria-label="close" class=" uk-sidenav__close" [ngClass]="side" ukIcon="close" (click)="onCloseClick()">
+  </button>
+  <ul class="uk-sidenav__menu">
+    <li *ngFor="let nav of navigationList">
+      <a class="uk-sidenav__menu-link finline middle fcol-cs-12" (click)="onMenuLinkClick(nav)">
+        {{nav.linkText}}
+        <i *ngIf="nav.subMenu" class="bofi-arrow-chevron" [class.open]="nav.toggleSubMenu"></i>
+      </a>
+      <div *ngIf="nav.subMenu" [class.hide]="!nav.toggleSubMenu" class="uk-sidenav__submenu">
+        <ul class="uk-sidenav__menu">
+          <li *ngFor="let subnav of nav.subMenu">
+            <a class="uk-sidenav__menu-link finline fcol-cs-12" (click)="onMenuLinkClick(subnav)">
+              {{subnav.linkText}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>
