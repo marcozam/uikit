@@ -29,7 +29,9 @@ export class UKValidators {
     private static userNameRegex = new RegExp('^[A-Za-z0-9_\-+.@]{6,30}$');
 
     // tslint:disable-next-line:max-line-length
-    private static poBoxRegex = new RegExp('(?:P(?:ost|OST(?:al|AL)?)?[\.\-\s]*(?:(?:O(?:ffice|FFICE)?[\.\-\s]*)?[B|b][O|o|0][X|x]|o(?:ffice|FFICE|\b)(?:[-\s]*\d)|code|CODE)|[B|b][O|o|0][X|x]|[-\s\b]*\d)');
+    // private static poBoxRegex = new RegExp('(?:P(?:ost|OST(?:al|AL)?)?[\.\-\s]*(?:(?:O(?:ffice|FFICE)?[\.\-\s]*)?[B|b][O|o|0][X|x]|o(?:ffice|FFICE|\b)(?:[-\s]*\d)|code|CODE)|[B|b][O|o|0][X|x]|[-\s\b]*\d)');
+    // tslint:disable-next-line:max-line-length
+    private static poBoxRegex = new RegExp('(?:P(?:ost|OST(?:al|AL)?)?[\.\-\s]*(?:(?:O(?:ffice|FFICE)?[\.\-\s]*)?B(?:ox|OX|in|\b|\d)|o(?:ffice|FFICE|\b)(?:[-\s]*\d)|code|CODE)|box|BOX[-\s\b]*\d)');
     private static streetRegex = new RegExp('^((\b.*[a-zA-Z0-9]+.*\b)\s*){2,}$');
 
 
@@ -51,7 +53,7 @@ export class UKValidators {
                 const isValid = date >= minDate;
                 return isValid ? null : { ukMinDateError: true };
             });
-        };
+        }
     }
 
     static maxDate(maxDate: Date): ValidatorFn {
